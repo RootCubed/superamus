@@ -1,0 +1,474 @@
+{
+    "schoolName": "KEN",
+    "source": {
+        "urls": [
+            "https://www.ken.ch/fileadmin/content/04_Service/Maturitaet_2024_Informationen.pdf",
+            "https://www.ken.ch/fileadmin/content/02_Gymnasium/Maturitaet_2024.pdf",
+            "https://www.ken.ch/gymnasium/neue-sprachen",
+            "https://www.ken.ch/gymnasium/unterricht/wahlkurse"
+        ],
+        "accessed": "27.06.2023"
+    },
+    "uncertainties": [
+        "Gibt es im Instrumentalunterricht eine Note? Falls ja, ist die Musiknote einfach der gerundete Schnitt von Musikunterricht und Instrumentalunterricht?"
+    ],
+    "choices": [
+        {
+            "id": "profile",
+            "displayName": "Profil",
+            "options": {
+                "N": "Neue Sprachen",
+                "W": "Wirtschaft und Recht"
+            }
+        },
+        {
+            "id": "gf_spr1",
+            "displayName": "Sprachgrundlagenfach zweite Landessprache",
+            "hideCondition": [
+                "!profile.N"
+            ],
+            "options": {
+                "F": "Französisch",
+                "IT": "Italienisch"
+            }
+        },
+        {
+            "id": "gf_spr2",
+            "displayName": "Zweites Sprachgrundlagenfach",
+            "hideCondition": [
+                "!profile.N"
+            ],
+            "options": {
+                "E": "Englisch",
+                "IT": "Italienisch"
+            }
+        },
+        {
+            "id": "spf_spr",
+            "displayName": "Schwerpunktfach",
+            "hideCondition": [
+                "!profile.N"
+            ],
+            "options": {
+                "E": "Englisch",
+                "F": "Französisch",
+                "IT": "Italienisch",
+                "SP": "Spanisch",
+                "R": "Russisch"
+            }
+        },
+        {
+            "id": "bgmu",
+            "displayName": "BG oder Musik",
+            "options": {
+                "BG": "Bildnerisches Gestalten",
+                "MU": "Musik"
+            }
+        },
+        {
+            "id": "vormatur",
+            "displayName": "Vormaturitätsprüfung",
+            "options": {
+                "C": "Chemie",
+                "P": "Physik",
+                "B": "Biologie"
+            }
+        },
+        {
+            "id": "ef",
+            "displayName": "Ergänzungsfach = Wahlkurs 1",
+            "options": {
+                "B": "Biologie",
+                "BG": "Bildnerisches Gestalten",
+                "C": "Chemie",
+                "G": "Geschichte",
+                "GG": "Geographie",
+                "IN": "Informatik",
+                "M": "Mathematik",
+                "MU": "Musik",
+                "P": "Physik",
+                "S": "Sport",
+                "WR": "Wirtschaft und Recht"
+            }
+        },
+        {
+            "id": "wk",
+            "displayName": "Wahlkurs 2",
+            "options": {
+                "B": "Biologie",
+                "BG": "Bildnerisches Gestalten",
+                "C": "Chemie",
+                "E": "Englisch",
+                "G": "Geschichte",
+                "GG": "Geographie",
+                "IT": "Italienisch",
+                "M": "Mathematik",
+                "MU": "Musik",
+                "P": "Physik",
+                "R": "Russisch",
+                "SP": "Spanisch",
+                "WR": "Wirtschaft und Recht"
+            }
+        }
+    ],
+    "invalidChoiceCombinations": [  
+        ["gf_spr1.IT", "gf_spr2.IT"],
+
+        ["gf_spr1.IT", "spf_spr.IT"],
+        ["gf_spr2.IT", "spf_spr.IT"],
+        ["gf_spr1.F", "spf_spr.F"],
+        ["gf_spr1.F", "spf_spr.F"],
+        ["gf_spr2.E", "spf_spr.E"],
+    
+        ["profile.W", "ef.WR"],
+        
+        ["bgmu.MU", "wk.BG"],
+        ["bgmu.BG", "wk.MU"],
+        ["bgmu.MU", "ef.BG"],
+        ["bgmu.BG", "ef.MU"],
+
+        ["profile.W", "ef.E"],
+        ["profile.W", "ef.IT"],
+        ["profile.W", "ef.R"],
+        ["profile.W", "ef.SP"],
+
+        ["!gf_spr2.IT", "!spf_spr.IT", "ef.IT"],
+        ["!spf_spr.SP", "ef.SP"],
+        ["!spf_spr.RU", "ef.RU"],
+
+        ["ef.B", "wk.B"],
+        ["ef.BG", "wk.BG"],
+        ["ef.C", "wk.C"],
+        ["ef.G", "wk.G"],
+        ["ef.GG", "wk.GG"],
+        ["ef.M", "wk.M"],
+        ["ef.MU", "wk.MU"],
+        ["ef.P", "wk.P"],
+        ["ef.WR", "wk.WR"]
+    ],
+    "gradeTypes": {
+        "Sem5": "Erfahrungsnote Semester 5 (HS 3. Klasse)",
+        "Sem6": "Erfahrungsnote Semester 6 (FS 3. Klasse)",
+        "WK": "Wahlkursnote",
+        "Jahr4": "Erfahrungsnote 4. Klasse",
+        "MatPr1": "Maturprüfung schriftlich",
+        "MatPr2": "Maturprüfung mündlich",
+        "VorMat": "Vormaturitätsprüfung",
+        "MatAr": "Maturnote Maturitätsarbeit"
+    },
+    "gradeCalculations": {
+        "J4+Mat2": "Avg(Jahr4, Avg(MatPr1, MatPr2))",
+        "J4+WK+Mat2": "Avg(Jahr4, WK, MatPr1, MatPr2)",
+        "J4+MatPr1": "Avg(Jahr4, MatPr1)",
+        "J4+MatPr2": "Avg(Jahr4, MatPr2)",
+        "J4": "Jahr4",
+        "J3": "Avg(Sem5, Sem6)",
+        "J3+VM": "Avg(Avg(Sem5, Sem6), VorMat)",
+        "WK": "WK",
+        "WK+VM": "Avg(WK, VorMat)",
+        "SPF_WR+WK": "Avg(WeightedAvg(Jahr4, Frac(10,7), WK, Frac(4,7)), Avg(MatPr1, MatPr2))",
+        "MatAr": "MatAr"
+    },
+    "subjects": [
+        {
+            "id": "D",
+            "displayName": "Deutsch",
+            "gradingScheme": {
+                "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                "calculation": "J4+Mat2"
+            }
+        },
+        {
+            "id": "F",
+            "displayName": [
+                { "match": "gf_spr1.F", "value": "Französisch" },
+                { "match": "gf_spr1.IT", "value": "Italienisch" },
+                { "match": "*", "value": "Franzözisch" }
+            ],
+            "gradingScheme": {
+                "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                "calculation": "J4+Mat2"
+            }
+        },
+        {
+            "id": "SprGF",
+            "displayName": [
+                { "match": "gf.E", "value": "Englisch" },
+                { "match": "gf.IT", "value": "Italienisch" },
+                { "match": "*", "value": "Englisch" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "profile.W & wk.E",
+                    "value": {
+                        "gradeFields": ["Jahr4", "MatPr2"],
+                        "calculation": "J4+MatPr2"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr4"],
+                        "calculation": "J4"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "M",
+            "displayName": "Mathematik",
+            "gradingScheme": [
+                {
+                    "match": "wk.M",
+                    "value": {
+                        "gradeFields": ["Jahr4", "WK", "MatPr1", "MatPr2"],
+                        "calculation": "J4+WK+Mat2"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                        "calculation": "J4+Mat2"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "B",
+            "displayName": "Biologie",
+            "gradingScheme": [
+                {
+                    "match": "wk.B & !vormatur.B",
+                    "value": {
+                        "gradeFields": ["WK"],
+                        "calculation": "WK"
+                    }
+                },
+                {
+                    "match": "wk.B & vormatur.B",
+                    "value": {
+                        "gradeFields": ["VorMat", "WK"],
+                        "calculation": "WK+VM"
+                    }
+                },
+                {
+                    "match": "vormatur.B",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6", "VorMat"],
+                        "calculation": "J3+VM"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "C",
+            "displayName": "Chemie",
+            "gradingScheme": [
+                {
+                    "match": "wk.C & !vormatur.C",
+                    "value": {
+                        "gradeFields": ["WK"],
+                        "calculation": "WK"
+                    }
+                },
+                {
+                    "match": "wk.C & vormatur.C",
+                    "value": {
+                        "gradeFields": ["VorMat", "WK"],
+                        "calculation": "WK+VM"
+                    }
+                },
+                {
+                    "match": "vormatur.C",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6", "VorMat"],
+                        "calculation": "J3+VM"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "P",
+            "displayName": "Physik",
+            "gradingScheme": [
+                {
+                    "match": "wk.P & !vormatur.P",
+                    "value": {
+                        "gradeFields": ["WK"],
+                        "calculation": "WK"
+                    }
+                },
+                {
+                    "match": "wk.P & vormatur.P",
+                    "value": {
+                        "gradeFields": ["VorMat", "WK"],
+                        "calculation": "WK+VM"
+                    }
+                },
+                {
+                    "match": "vormatur.P",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6", "VorMat"],
+                        "calculation": "J3+VM"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "G",
+            "displayName": "Geschichte",
+            "gradingScheme": [
+                {
+                    "match": "wk.G",
+                    "value": {
+                        "gradeFields": ["Jahr6", "MatPr1|Maturprüfung"],
+                        "calculation": "J6+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "GG",
+            "displayName": "Geographie",
+            "gradingScheme": [
+                {
+                    "match": "wk.GG",
+                    "value": {
+                        "gradeFields": ["WK"],
+                        "calculation": "WK"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "BGMU",
+            "displayName": [
+                { "match": "bgmu.BG", "value": "Bildnerisches Gestalten" },
+                { "match": "bgmu.MU", "value": "Musik" },
+                { "match": "*",       "value": "BG oder Musik" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "wk.MU",
+                    "value": {
+                        "gradeFields": ["WK"],
+                        "calculation": "WK"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5", "Sem6"],
+                        "calculation": "J3"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "SPF",
+            "displayName": [
+                { "match": "profile.W",  "value": "Schwerpunktfach Wirtschaft und Recht" },
+                { "match": "spf_spr.E",  "value": "Schwerpunktfach Englisch" },
+                { "match": "spf_spr.F",  "value": "Schwerpunktfach Französisch" },
+                { "match": "spf_spr.IT", "value": "Schwerpunktfach Italienisch" },
+                { "match": "spf_spr.SP", "value": "Schwerpunktfach Spanisch" },
+                { "match": "spf_spr.R",  "value": "Schwerpunktfach Russisch" },
+                { "match": "*",          "value": "Schwerpunktfach" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "profile.W & wk.WR",
+                    "value": {
+                        "gradeFields": ["Jahr4", "WK", "MatPr1", "MatPr2"],
+                        "calculation": "SPF_WR+WK"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                        "calculation": "J4+Mat2"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "EF",
+            "displayName": [
+                { "match": "ef.B",  "value": "Ergänzungsfach Biologie" },
+                { "match": "ef.BG", "value": "Ergänzungsfach Bildnerisches Gestalten" },
+                { "match": "ef.C",  "value": "Ergänzungsfach Chemie" },
+                { "match": "ef.G",  "value": "Ergänzungsfach Geschichte" },
+                { "match": "ef.GG", "value": "Ergänzungsfach Geographie" },
+                { "match": "ef.IN", "value": "Ergänzungsfach Informatik" },
+                { "match": "ef.M",  "value": "Ergänzungsfach Mathematik" },
+                { "match": "ef.MU", "value": "Ergänzungsfach Musik" },
+                { "match": "ef.P",  "value": "Ergänzungsfach Physik" },
+                { "match": "ef.PH", "value": "Ergänzungsfach Philosophie" },
+                { "match": "ef.S",  "value": "Ergänzungsfach Sport" },
+                { "match": "ef.WR", "value": "Ergänzungsfach Wirtschaft und Recht" },
+                { "match": "*",     "value": "Ergänzungsfach" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "ef.G | ef.GG | ef.WR",
+                    "value": {
+                        "gradeFields": ["Jahr4", "MatPr1"],
+                        "calculation": "J4+MatPr1"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr4"],
+                        "calculation": "J4"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "MA",
+            "displayName": "Maturitätsarbeit",
+            "gradingScheme": {
+                "gradeFields": ["MatAr"],
+                "calculation": "MatAr"
+            }
+        }
+    ]
+}

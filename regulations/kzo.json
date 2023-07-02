@@ -1,0 +1,411 @@
+{
+    "schoolName": "KZO",
+    "source": {
+        "urls": [
+            "https://www.kzo.ch/unterricht/maturjahr/allgemeines"
+        ],
+        "accessed": "25.06.2023"
+    },
+    "uncertainties": [],
+    "choices": [
+        {
+            "id": "profile",
+            "displayName": "Profil",
+            "options": {
+                "A_L":   "A-Profil, Latein",
+                "A_GR":  "A-Profil, Griechisch",
+                "C_BC":  "C-Profil, Biologie/Chemie",
+                "C_PAM": "C-Profil, Physik/AM",
+                "N_E":   "N-Profil, Englisch",
+                "N_IT":  "N-Profil, Italienisch",
+                "N_SP":  "N-Profil, Spanisch",
+                "M_MU":  "M-Profil, Musik",
+                "M_BG":  "M-Profil, Bildnerisches Gestalten",
+                "W":     "W-Profil"
+            }
+        },
+        {
+            "id": "bgmu",
+            "displayName": "BG oder Musik",
+            "hideCondition": [
+                "profile.M_MU",
+                "profile.M_BG"
+            ],
+            "options": {
+                "BG": "Bildnerisches Gestalten",
+                "MU": "Musik"
+            }
+        },
+        {
+            "id": "pk",
+            "displayName": "Projektkurs",
+            "options": {
+                "D": "Deutsch",
+                "F": "Französisch",
+                "E": "Englisch",
+                "IT": "Italienisch",
+                "SP": "Spanisch",
+                "M": "Mathematik"
+            }
+        },
+        {
+            "id": "wf_bcp",
+            "displayName": "Wahlfach Naturwissenschaften",
+            "options": {
+                "B": "Biologie",
+                "C": "Chemie",
+                "P": "Physik"
+            }
+        },
+        {
+            "id": "wf_ggg",
+            "displayName": "Wahlfach Geisteswissenschaften",
+            "options": {
+                "G":  "Geschichte",
+                "GG": "Geographie"
+            }
+        },
+        {
+            "id": "ef",
+            "displayName": "Ergänzungsfach",
+            "options": {
+                "AM": "Angewandte Mathematik",
+                "IN": "Informatik",
+                "B":  "Biologie",
+                "C":  "Chemie",
+                "P":  "Physik",
+                "G":  "Geschichte",
+                "GG": "Geographie",
+                "WR": "Wirtschaft und Recht",
+                "BG": "Bildnerisches Gestalten",
+                "MU": "Musik",
+                "SP": "Sport",
+                "PH": "Philosophie",
+                "RL": "Religion"
+            }
+        }
+    ],
+    "invalidChoiceCombinations": [
+        ["!profile.N_IT", "!profile.N_E", "pk.IT"],
+        ["!profile.N_SP", "pk.SP"],
+
+        ["profile.C_BC", "wf_bcp.B"],
+        ["profile.C_BC", "wf_bcp.C"],
+        ["profile.C_PAM", "wf_bcp.P"],
+
+        ["profile.C_PAM", "ef.AM"],
+        ["profile.C_BC", "ef.B"],
+        ["profile.C_BC", "ef.C"],
+        ["profile.C_BC", "ef.P"],
+        ["profile.C_PAM", "ef.P"],
+        ["profile.W", "ef.WR"],
+        ["profile.M_BG", "ef.BG"],
+        ["profile.M_MU", "ef.MU"],
+        ["profile.M_BG", "ef.SP"],
+        ["profile.M_MU", "ef.SP"],
+
+        ["wf_bcp.B", "ef.B"],
+        ["wf_bcp.C", "ef.C"],
+        ["wf_bcp.P", "ef.P"],
+
+        ["wf_ggg.G", "ef.G"],
+        ["wf_ggg.GG", "ef.GG"]
+    ],
+    "gradeTypes": {
+        "Sem5.1": "Erfahrungsnote 5.1",
+        "Sem5.2": "Erfahrungsnote 5.2",
+        "Jahr6": "Erfahrungsnote 6. Klasse",
+        "Jahr6_2": "Erfahrungsnote 6. Klasse",
+        "InsSem5.2": "Erfahrungsnote 5.2 Instrument",
+        "InsSem6.1": "Erfahrungsnote 6.1 Instrument",
+        "PK": "Projektkursnote",
+        "MatPr1": "Maturprüfung schriftlich",
+        "MatPr2": "Maturprüfung mündlich",
+        "MatAr": "Maturnote Maturitätsarbeit"
+    },
+    "gradeCalculations": {
+        "J6+Mat2": "Avg(Jahr6, Avg(MatPr1, MatPr2))",
+        "J6+Mat_Combined": "Avg(Jahr6, Jahr6_2, MatPr1, MatPr2)",
+        "J6+PK": "Avg(Jahr6, PK)",
+        "J6": "Jahr6",
+        "J5": "Avg(Sem5.1, Sem5.2)",
+        "J5+WF": "Avg(Avg(Sem5.1, Sem5.2), MatPr1)",
+        "MU_NotSchwerpunkt": "Avg(Jahr6, Avg(InsSem5.2, InsSem6.1))",
+        "MatAr": "MatAr"
+    },
+    "subjects": [
+        {
+            "id": "D",
+            "displayName": "Deutsch",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "F",
+            "displayName": "Französisch",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "SprGF",
+            "displayName": [
+                { "match": "profile.N_E", "value": "Italienisch" },
+                { "match": "*",           "value": "Englisch" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "profile.N_E & pk.IT",
+                    "value": {
+                        "gradeFields": ["Jahr6", "PK"],
+                        "calculation": "J6+PK"
+                    }
+                },
+                {
+                    "match": "!profile.N_E & pk.E",
+                    "value": {
+                        "gradeFields": ["Jahr6", "PK"],
+                        "calculation": "J6+PK"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr6"],
+                        "calculation": "J6"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "M",
+            "displayName": "Mathematik",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "B",
+            "displayName": "Biologie",
+            "gradingScheme": [
+                {
+                    "match": "wf_bcp.B",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2", "MatPr1|Maturprüfung"],
+                        "calculation": "J5+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "C",
+            "displayName": "Chemie",
+            "gradingScheme": [
+                {
+                    "match": "wf_bcp.C",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2", "MatPr1|Maturprüfung"],
+                        "calculation": "J5+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "P",
+            "displayName": "Physik",
+            "gradingScheme": [
+                {
+                    "match": "wf_bcp.P",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2", "MatPr1|Maturprüfung"],
+                        "calculation": "J5+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "G",
+            "displayName": "Geschichte",
+            "gradingScheme": [
+                {
+                    "match": "wf_ggg.G",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2", "MatPr1|Maturprüfung"],
+                        "calculation": "J5+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "GG",
+            "displayName": "Geographie",
+            "gradingScheme": [
+                {
+                    "match": "wf_ggg.GG",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2", "MatPr1|Maturprüfung"],
+                        "calculation": "J5+WF"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "BGMU",
+            "displayName": [
+                { "match": "profile.M_MU", "value": "Bildnerisches Gestalten" },
+                { "match": "profile.M_BG", "value": "Musik" },
+                { "match": "bgmu.BG",      "value": "Bildnerisches Gestalten" },
+                { "match": "bgmu.MU",      "value": "Musik" },
+                { "match": "*",            "value": "BG oder Musik" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "profile.M_MU",
+                    "value": {
+                        "gradeFields": ["Sem5.1", "Sem5.2"],
+                        "calculation": "J5"
+                    }
+                },
+                {
+                    "match": "profile.M_BG | bgmu.MU",
+                    "value": {
+                        "gradeFields": ["Jahr6", "InsSem5.2", "InsSem6.1"],
+                        "calculation": "MU_NotSchwerpunkt"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr6"],
+                        "calculation": "J6"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "SPF",
+            "displayName": [
+                { "match": "profile.A_L",   "value": "Latein" },
+                { "match": "profile.A_GR",  "value": "Griechisch" },
+                { "match": "profile.C_BC",  "value": "Biologie und Chemie" },
+                { "match": "profile.C_PAM", "value": "Physik und Angewandte Mathematik" },
+                { "match": "profile.N_E",   "value": "Englisch" },
+                { "match": "profile.N_IT",  "value": "Italienisch" },
+                { "match": "profile.N_SP",  "value": "Spanisch" },
+                { "match": "profile.M_MU",  "value": "Musik" },
+                { "match": "profile.M_BG",  "value": "Bildnerisches Gestalten" },
+                { "match": "profile.W",     "value": "Wirtschaft und Recht" },
+                { "match": "*",             "value": "Schwerpunktfach" }
+            ],
+            "gradingScheme": [
+                {
+                    "match": "profile.C_BC",
+                    "value": {
+                        "gradeFields": [
+                            "Jahr6|+ Biologie", "Jahr6_2|+ Chemie",
+                            "MatPr1|Maturprüfung Biologie", "MatPr2|Maturprüfung Chemie"
+                        ],
+                        "calculation": "J6+Mat_Combined"
+                    }
+                },
+                {
+                    "match": "profile.C_PAM",
+                    "value": {
+                        "gradeFields": [
+                            "Jahr6|+ Physik", "Jahr6_2|+ AM",
+                            "MatPr1|Maturprüfung Physik", "MatPr2|Maturprüfung AM"
+                        ],
+                        "calculation": "J6+Mat_Combined"
+                    }
+                },
+                {
+                    "match": "profile.M_MU",
+                    "value": {
+                        "gradeFields": [
+                            "Jahr6|+ Musik", "Jahr6_2|Jahresnote Instrument 6. Klasse",
+                            "MatPr1|Maturprüfung Musik", "MatPr2|Maturprüfung Instrument"
+                        ],
+                        "calculation": "J6+Mat_Combined"
+                    }
+                },
+                {
+                    "match": "*",
+                    "value": {
+                        "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                        "calculation": "J6+Mat2"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "EF",
+            "displayName": [
+                { "match": "ef.AM", "value": "Ergänzungsfach Angewandte Mathematik" },
+                { "match": "ef.IN", "value": "Ergänzungsfach Informatik" },
+                { "match": "ef.B",  "value": "Ergänzungsfach Biologie" },
+                { "match": "ef.C",  "value": "Ergänzungsfach Chemie" },
+                { "match": "ef.P",  "value": "Ergänzungsfach Physik" },
+                { "match": "ef.G",  "value": "Ergänzungsfach Geschichte" },
+                { "match": "ef.GG", "value": "Ergänzungsfach Geographie" },
+                { "match": "ef.WR", "value": "Ergänzungsfach Wirtschaft und Recht" },
+                { "match": "ef.BG", "value": "Ergänzungsfach Bildnerisches Gestalten" },
+                { "match": "ef.MU", "value": "Ergänzungsfach Musik" },
+                { "match": "ef.SP", "value": "Ergänzungsfach Sport" },
+                { "match": "ef.PH", "value": "Ergänzungsfach Philosophie" },
+                { "match": "ef.RL", "value": "Ergänzungsfach Religion" },
+                { "match": "*",     "value": "Ergänzungsfach" }
+            ],
+            "gradingScheme": {
+                "gradeFields": ["Jahr6"],
+                "calculation": "J6"
+            }
+        },
+        {
+            "id": "MA",
+            "displayName": "Maturitätsarbeit",
+            "gradingScheme": {
+                "gradeFields": ["MatAr"],
+                "calculation": "MatAr"
+            }
+        }
+    ]
+}
