@@ -1,0 +1,106 @@
+{
+    "schoolName": "...",
+    "source": {
+        "urls": [
+            
+        ],
+        "accessed": "<date>"
+    },
+    "uncertainties": [],
+    "choices": [],
+    "invalidChoiceCombinations": [],
+    "gradeTypes": {
+        "Sem5.1": "Erfahrungsnote 5.1 (bzw. 3.1 bei Kurzzeitgymnasium)",
+        "Sem5.2": "Erfahrungsnote 5.2 (bzw. 3.2 bei Kurzzeitgymnasium)",
+        "Jahr6": "Erfahrungsnote 6. Klasse (bzw. 4. Klasse bei Kurzzeitgymnasium)",
+        "MatPr1": "Maturprüfung schriftlich",
+        "MatPr2": "Maturprüfung mündlich",
+        "MatAr": "Maturnote Maturitätsarbeit"
+    },
+    "gradeCalculations": {
+        "J6+Mat2": "Avg(Jahr6, Avg(MatPr1, MatPr2))",
+        "J6": "Jahr6",
+        "J5": "Avg(Sem5.1, Sem5.2)",
+        "J5+WF": "Avg(Avg(Sem5.1, Sem5.2), MatPr1)",
+        "MatAr": "MatAr"
+    },
+    "subjects": [
+        {
+            "id": "D",
+            "displayName": "Deutsch",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "F",
+            "displayName": "Französisch",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "SprGF",
+            "displayName": "Sprachgrundlagenfach (meistens Englisch)",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "M",
+            "displayName": "Mathematik",
+            "gradingScheme": {
+                "gradeFields": ["Jahr6", "MatPr1", "MatPr2"],
+                "calculation": "J6+Mat2"
+            }
+        },
+        {
+            "id": "B",
+            "displayName": "Biologie",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "C",
+            "displayName": "Chemie",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "P",
+            "displayName": "Physik",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "G",
+            "displayName": "Geschichte",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "GG",
+            "displayName": "Geographie",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "BGMU",
+            "displayName": "BG oder Musik",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "SPF",
+            "displayName": "Schwerpunktfach",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "EF",
+            "displayName": "Ergänzungsfach",
+            "gradingScheme": // TODO
+        },
+        {
+            "id": "MA",
+            "displayName": "Maturitätsarbeit",
+            "gradingScheme": {
+                "gradeFields": ["MatAr"],
+                "calculation": "MatAr"
+            }
+        }
+    ]
+}

@@ -8,33 +8,46 @@
         "#2085EC"
     ];
     
-    const PIE_RADIUS = 50;
-    const LEGEND_SQUARE_SIZE = 15;
-
-    function calculatePieChartPositions() {
-        let sum = 0;
+    function calculatePieChartPositions(weights) {
+        let sum = Math.PI;
         return Object.entries(weights).map(([name, weight], i) => {
             const angle = weight * 360;
             const color = colors[i];
 
-            const startX = Math.sin(sum) * PIE_RADIUS;
-            const startY = -Math.cos(sum) * PIE_RADIUS;
+            const startX = Math.sin(sum);
+            const startY = -Math.cos(sum);
             
             sum += angle / 180 * Math.PI;
 
-            const endX = Math.sin(sum) * PIE_RADIUS;
-            const endY = -Math.cos(sum) * PIE_RADIUS;
+            const endX = Math.sin(sum);
+            const endY = -Math.cos(sum);
 
             const res = {
                 name,
                 color,
-                path: `M ${startX} ${startY} A ${PIE_RADIUS} ${PIE_RADIUS} ${angle} ${angle > 180 ? 1 : 0} 1 ${endX} ${endY} L 0 0 Z`
+                path: `M ${startX} ${startY} A 1 1 ${angle} ${angle > 180 ? 1 : 0} 1 ${endX} ${endY} L 0 0 Z`
             }
             return res;
         });
     }
 
-    $: pieChartPositions = calculatePieChartPositions();
+    function convertCalcString(calcStr, argNames) {
+        let res = [];
+        let parts = calcStr.split(/(\[[^\]]+\])/);
+        for (let part of parts) {
+            if (part.startsWith("[")) {
+                let name = part.slice(1, -1);
+                let color = colors[argNames.indexOf(name)];
+                res.push({ type: "arg", value: name, color });
+            } else {
+                res.push({ type: "text", value: part });
+            }
+        }
+        return res;
+    }
+
+    $: pieChartPositions = calculatePieChartPositions(weights);
+    $: calcStringArr = convertCalcString(calculationString, Object.keys(weights));
 
     let tooltip;
     function recalculateTooltipPosition() {
@@ -59,21 +72,17 @@
     <div class="grade-calc-info" bind:this={tooltip}>
         <p>
             Berechnung:<br>
-            {@html calculationString}
+            {#each calcStringArr as part}
+                {#if part.type == "text"}
+                    {part.value}
+                {:else if part.type == "arg"}
+                    <span class="calc-arg" style="color: {part.color}">{part.value}</span>
+                {/if}
+            {/each}
         </p>
-        <svg viewBox="{-PIE_RADIUS} {-PIE_RADIUS} {PIE_RADIUS * 2} {PIE_RADIUS * 2 + pieChartPositions.length * LEGEND_SQUARE_SIZE}">
+        <svg viewBox="-1 -1 2 2">
             {#each pieChartPositions as data}
                 <path d={data.path} fill={data.color} />
-            {/each}
-            {#each pieChartPositions as data, i}
-                <rect x={-PIE_RADIUS} y={PIE_RADIUS + i * LEGEND_SQUARE_SIZE} width={LEGEND_SQUARE_SIZE} height={LEGEND_SQUARE_SIZE} fill={data.color} />
-                <text
-                    font-size="9"
-                    x={-PIE_RADIUS + LEGEND_SQUARE_SIZE + 5}
-                    y={PIE_RADIUS + i * LEGEND_SQUARE_SIZE}
-                    fill="white">
-                    <tspan dy="1.2em">{data.name}</tspan>
-                </text>
             {/each}
         </svg>
     </div>
@@ -134,5 +143,10 @@
 
     .grade-calc-info p {
         margin-bottom: 10px;
+    }
+    
+    .grade-calc-info .calc-arg {
+        font-family: monospace;
+        font-weight: bold;
     }
 </style>

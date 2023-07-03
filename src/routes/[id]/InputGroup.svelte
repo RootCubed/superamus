@@ -20,17 +20,13 @@
         "#14FF0077", // 6
     ];
 
-    let finalUnroundedGrade = 4;
     let finalGrade = 4;
-
+    let bgColor = gradeColors[4];
     let calculationString = "";
     let weights = [];
-
     let fields = [];
 
-    let component;
-
-    function recalculateGrades(config, subjectID, subjGrades) {
+    function recalculate(config, subjectID, subjGrades) {
         fields = regulations.getGradeFields(config, subjectID);
         
         if (!subjGrades) {
@@ -43,12 +39,9 @@
             }
         }
         
-        finalUnroundedGrade = regulations.calcAvg(config, subjectID, subjGrades);
+        const finalUnroundedGrade = regulations.calcAvg(config, subjectID, subjGrades);
         finalGrade = (Math.round(finalUnroundedGrade * 2) / 2).toFixed(1);
-        
-        if (component) {
-            component.style.setProperty("--bg-color", gradeColors[(finalGrade - 1) * 2]);
-        }
+        bgColor = gradeColors[finalGrade * 2 - 2];
         
         calculationString = regulations.getCalcStr(config, subjectID, subjGrades);
         weights = regulations.getGradeWeights(config, subjectID, subjGrades);
@@ -56,14 +49,14 @@
         return subjGrades;
     }
     
-    $: subjGrades = recalculateGrades(config, subjectID, subjGrades);
+    $: subjGrades = recalculate(config, subjectID, subjGrades);
 </script>
 
-<div id="component" bind:this={component}>
+<div class="component" style="background-color: {bgColor}">
     <span class="title">{title}:</span>
     <span class="final-grade">{finalGrade}</span>
     {#if fields.length > 1}
-    <GradeCalcInfo {calculationString} {weights} />
+        <GradeCalcInfo {calculationString} {weights} />
     {/if}
     <div class="input-group">
         {#each fields as field}
@@ -81,9 +74,7 @@
         align-items: center;
     }
 
-    #component {
-        --bg-color: #DFE616;
-        background-color: var(--bg-color);
+    .component {
         padding: 10px;
     }
     

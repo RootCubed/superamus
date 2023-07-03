@@ -27,10 +27,7 @@
         {
             "id": "bgmu",
             "displayName": "BG oder Musik",
-            "hideCondition": [
-                "profile.M_MU",
-                "profile.M_BG"
-            ],
+            "showCondition": "!(profile.M_MU | profile.M_BG)",
             "options": {
                 "BG": "Bildnerisches Gestalten",
                 "MU": "Musik"
@@ -40,12 +37,12 @@
             "id": "pk",
             "displayName": "Projektkurs",
             "options": {
-                "D": "Deutsch",
-                "F": "Französisch",
-                "E": "Englisch",
+                "D":  "Deutsch",
+                "F":  "Französisch",
+                "E":  "Englisch",
                 "IT": "Italienisch",
                 "SP": "Spanisch",
-                "M": "Mathematik"
+                "M":  "Mathematik"
             }
         },
         {
@@ -86,7 +83,7 @@
         }
     ],
     "invalidChoiceCombinations": [
-        ["!profile.N_IT", "!profile.N_E", "pk.IT"],
+        ["!(profile.N_IT | profile.N_E)", "pk.IT"],
         ["!profile.N_SP", "pk.SP"],
 
         ["profile.C_BC", "wf_bcp.B"],
@@ -121,7 +118,7 @@
         "PK": "Projektkursnote",
         "MatPr1": "Maturprüfung schriftlich",
         "MatPr2": "Maturprüfung mündlich",
-        "MatAr": "Maturnote Maturitätsarbeit"
+        "MatAr": "Note Maturitätsarbeit"
     },
     "gradeCalculations": {
         "J6+Mat2": "Avg(Jahr6, Avg(MatPr1, MatPr2))",
@@ -352,7 +349,7 @@
                     "value": {
                         "gradeFields": [
                             "Jahr6|+ Physik", "Jahr6_2|+ AM",
-                            "MatPr1|Maturprüfung Physik", "MatPr2|Maturprüfung AM"
+                            "MatPr1|Maturprüfung Physik schriftlich", "MatPr2|Maturprüfung AM mündlich"
                         ],
                         "calculation": "J6+Mat_Combined"
                     }
@@ -362,7 +359,7 @@
                     "value": {
                         "gradeFields": [
                             "Jahr6|+ Musik", "Jahr6_2|Jahresnote Instrument 6. Klasse",
-                            "MatPr1|Maturprüfung Musik", "MatPr2|Maturprüfung Instrument"
+                            "MatPr1|Maturprüfung Musik schriftlich", "MatPr2|Maturprüfung Instrument"
                         ],
                         "calculation": "J6+Mat_Combined"
                     }

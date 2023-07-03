@@ -8,7 +8,8 @@
         "accessed": "25.06.2023"
     },
     "uncertainties": [
-        "Wenn man Musik wählt, hat man im 6.1 immer noch Instrumentalunterricht; falls ja, zählt die Note zur Erfahrungsnote?"
+        "Ist die Erfahrungsnote in Musik der ungerundete oder der gerundete Schnitt von Klassenunterricht und Instrumentalunterricht?",
+        "Darf man ein Ergänzungsfach wählen, wenn man es schon als Wahlfach genommen hat? (z.B. Biologie als Wahlfach Naturwissenschaften + EF Biologie)"
     ],
     "choices": [
         {
@@ -27,16 +28,17 @@
                 "L": "Latein",
                 "E": "Englisch",
                 "IT": "Italienisch",
-                "R": "Russisch"
+                "SP": "Spanisch",
+                "RU": "Russisch"
             }
         },
         {
             "id": "gf",
             "displayName": "Grundlagenfach",
             "options": {
-                "L": "Latein",
                 "E": "Englisch",
-                "IT": "Italienisch"
+                "IT": "Italienisch",
+                "L": "Latein"
             }
         },
         {
@@ -49,7 +51,7 @@
         },
         {
             "id": "wf_bcp",
-            "displayName": "Wahlfach Naturwissenschaften",
+            "displayName": "Maturfach Naturwissenschaften",
             "options": {
                 "B": "Biologie",
                 "C": "Chemie",
@@ -57,8 +59,8 @@
             }
         },
         {
-            "id": "wf_ggg",
-            "displayName": "Wahlfach Geisteswissenschaften",
+            "id": "pf_ggg",
+            "displayName": "Prüfungsfach Geisteswissenschaften",
             "options": {
                 "G": "Geschichte",
                 "GG": "Geographie"
@@ -87,34 +89,18 @@
         ["profile.N", "spf.GR"],
         ["profile.N", "spf.L"],
 
-        ["spf.GR", "gf.IT"],
-        ["spf.L", "gf.L"],
-
-        ["spf.IT", "gf.IT"],
-        ["spf.E", "gf.E"],
-
-        ["profile.A", "spf.E", "gf.IT"],
-        ["profile.A", "spf.E", "gf.E"],
-        ["profile.A", "spf.IT", "gf.E"],
-        ["profile.A", "spf.SP", "gf.IT"],
-        ["profile.A", "spf.SP", "gf.E"],
-        ["profile.A", "spf.RU", "gf.IT"],
-        ["profile.A", "spf.RU", "gf.E"],
-
-        ["profile.N", "spf.IT", "gf.IT"],
-        ["profile.N", "spf.IT", "gf.L"],
-        ["profile.N", "spf.E", "gf.L"],
-        ["profile.N", "spf.RU", "gf.IT"],
-        ["profile.N", "spf.RU", "gf.L"],
-        ["profile.N", "spf.SP", "gf.IT"],
-        ["profile.N", "spf.SP", "gf.L"],
+        ["profile.A", "spf.GR", "gf.* & !(gf.L | gf.E)"],
+        ["profile.A", "spf.L", "gf.* & !(gf.E | gf.IT)"],
+        ["profile.A", "spf.E | spf.IT | spf.SP | spf.RU", "gf.* & !gf.L"],
+        
+        ["profile.N", "spf.IT", "gf.* & !gf.E"],
+        ["profile.N", "spf.E", "gf.* & !gf.IT"],
+        ["profile.N", "spf.RU", "gf.* & !gf.E"],
+        ["profile.N", "spf.SP", "gf.* & !gf.E"],
         
         ["wf_bcp.B", "ef.B"],
         ["wf_bcp.C", "ef.C"],
-        ["wf_bcp.P", "ef.P"],
-
-        ["wf_ggg.G", "ef.G"],
-        ["wf_ggg.GG", "ef.GG"]
+        ["wf_bcp.P", "ef.P"]
     ],
     "gradeTypes": {
         "Sem5_1": "Erfahrungsnote 5.1",
@@ -124,7 +110,7 @@
         "INS6_1": "Erfahrungsnote 6.1 Instrument",
         "MatPr1": "Maturprüfung schriftlich",
         "MatPr2": "Maturprüfung mündlich",
-        "MatAr": "Maturnote Maturitätsarbeit"
+        "MatAr": "Note Maturitätsarbeit"
     },
     "gradeCalculations": {
         "J6+Mat2": "Avg(Jahr6, Avg(MatPr1, MatPr2))",
@@ -156,9 +142,9 @@
         {
             "id": "SprGF",
             "displayName": [
-                { "match": "gf.L", "value": "Lateinisch" },
                 { "match": "gf.E", "value": "Englisch" },
                 { "match": "gf.IT", "value": "Italienisch" },
+                { "match": "gf.L", "value": "Lateinisch" },
                 { "match": "*", "value": "Englisch" }
             ],
             "gradingScheme": {
@@ -239,7 +225,7 @@
             "displayName": "Geschichte",
             "gradingScheme": [
                 {
-                    "match": "wf_ggg.G",
+                    "match": "pf_ggg.G",
                     "value": {
                         "gradeFields": ["Jahr6", "MatPr1|Maturprüfung"],
                         "calculation": "J6+WF"
@@ -259,7 +245,7 @@
             "displayName": "Geographie",
             "gradingScheme": [
                 {
-                    "match": "wf_ggg.GG",
+                    "match": "pf_ggg.GG",
                     "value": {
                         "gradeFields": ["Jahr6", "MatPr1|Maturprüfung"],
                         "calculation": "J6+WF"
@@ -305,7 +291,7 @@
                 { "match": "spf.L",  "value": "Schwerpunktfach Latein" },
                 { "match": "spf.E",  "value": "Schwerpunktfach Englisch" },
                 { "match": "spf.IT", "value": "Schwerpunktfach Italienisch" },
-                { "match": "spf.R",  "value": "Schwerpunktfach Russisch" },
+                { "match": "spf.RU", "value": "Schwerpunktfach Russisch" },
                 { "match": "*",      "value": "Schwerpunktfach" }
             ],
             "gradingScheme": [

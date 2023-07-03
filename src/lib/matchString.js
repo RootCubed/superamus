@@ -17,9 +17,12 @@ const UNARY_OPERATORS = ["!"];
 
 function tokenize(str) {
     const tokens = [];
-    const regex = /\s*([a-zA-Z0-9_.]+|[\(\)&|!*])\s*/g;
-    let match;
-    while ((match = regex.exec(str)) != null) {
+    const regex = /\s*([a-z\d_.*]+|[^a-z\d\s])\s*/gi;
+    while (true) {
+        let match = regex.exec(str);
+        if (match == null) {
+            break;
+        }
         tokens.push(match[1]);
     }
     return tokens;
@@ -29,11 +32,20 @@ function testMatchLiteral(literal, choices) {
     if (literal == "*") {
         return true;
     }
+
     const spl = literal.split(".");
     if (spl.length != 2) {
         throw new Error("Invalid literal: " + literal);
     }
-    return choices[spl[0]] == spl[1];
+
+    if (!choices.hasOwnProperty(spl[0])) {
+        return false;
+    } else {
+        if (spl[1] == "*") {
+            return true;
+        }
+        return choices[spl[0]] == spl[1];
+    }
 }
 
 function testMatchInternal(tokens, choices, minBindStrength) {
@@ -43,8 +55,9 @@ function testMatchInternal(tokens, choices, minBindStrength) {
 
     let lhs;
     if (tokens[0] == "(") {
+        // Nested expression with parentheses
         tokens.shift();
-        lhs = testMatchInternal(tokens, choices, 0);
+        lhs = testMatchInternal(tokens, choices, 0); // Reset bind strength to 0
         if (tokens[0] != ")") {
             throw new Error("Expected ')'");
         }
@@ -53,7 +66,11 @@ function testMatchInternal(tokens, choices, minBindStrength) {
             return lhs;
         }
     } else if (UNARY_OPERATORS.includes(tokens[0])) {
+        // Operator comes before operand
         const op = tokens.shift();
+        if (tokens.length == 0) {
+            throw new Error("Unexpected end of match string");
+        }
         lhs = OPERATORS[op].func(testMatchInternal(tokens, choices, OPERATORS[op].bindStrength));
         if (tokens.length == 0) {
             return lhs;
@@ -74,12 +91,18 @@ function testMatchInternal(tokens, choices, minBindStrength) {
             return lhs;
         }
         tokens.shift();
+        if (tokens.length == 0) {
+            throw new Error("Unexpected end of match string");
+        }
         lhs = OPERATORS[op].func(lhs, testMatchInternal(tokens, choices, OPERATORS[op].bindStrength));
     }
     return lhs;
 }
 
 export function testMatchStr(matchStr, choices) {
+    if (matchStr == null) {
+        throw new Error("match string is null");
+    }
     const tokens = tokenize(matchStr);
     const res = testMatchInternal(tokens, choices, 0);
     if (tokens.length > 0) {

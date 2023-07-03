@@ -24,9 +24,7 @@
         {
             "id": "gf_spr1",
             "displayName": "Sprachgrundlagenfach zweite Landessprache",
-            "hideCondition": [
-                "!profile.N"
-            ],
+            "showCondition": "profile.N",
             "options": {
                 "F": "Französisch",
                 "IT": "Italienisch"
@@ -35,9 +33,7 @@
         {
             "id": "gf_spr2",
             "displayName": "Zweites Sprachgrundlagenfach",
-            "hideCondition": [
-                "!profile.N"
-            ],
+            "showCondition": "profile.N",
             "options": {
                 "E": "Englisch",
                 "IT": "Italienisch"
@@ -46,15 +42,13 @@
         {
             "id": "spf_spr",
             "displayName": "Schwerpunktfach",
-            "hideCondition": [
-                "!profile.N"
-            ],
+            "showCondition": "profile.N",
             "options": {
                 "E": "Englisch",
                 "F": "Französisch",
                 "IT": "Italienisch",
                 "SP": "Spanisch",
-                "R": "Russisch"
+                "RU": "Russisch"
             }
         },
         {
@@ -105,9 +99,50 @@
                 "M": "Mathematik",
                 "MU": "Musik",
                 "P": "Physik",
-                "R": "Russisch",
+                "RU": "Russisch",
                 "SP": "Spanisch",
                 "WR": "Wirtschaft und Recht"
+            }
+        },
+        {
+            "id": "wk2",
+            "displayName": "Wahlkurs 3 (freiwillig)",
+            "options": {
+                "B": "Biologie",
+                "BG": "Bildnerisches Gestalten",
+                "C": "Chemie",
+                "E": "Englisch",
+                "K": "Kunstgeschichte",
+                "G": "Geschichte",
+                "GG": "Geographie",
+                "IN": "Informatik",
+                "IT": "Italienisch",
+                "M": "Mathematik",
+                "MU": "Musik",
+                "P": "Physik",
+                "RU": "Russisch",
+                "SP": "Spanisch",
+                "S": "Sport",
+                "WR": "Wirtschaft und Recht"
+            }
+        },
+        {
+            "id": "exam_choice_ggg",
+            "displayName": "Maturprüfungsfach Geisteswissenschaften",
+            "showCondition": "profile.N & (wk.G & wk2.GG | wk.GG & wk2.G)",
+            "options": {
+                "G": "Geschichte",
+                "GG": "Geographie"
+            }
+        },
+        {
+            "id": "exam_choice_ggge",
+            "displayName": "Maturprüfungsfach Geisteswissenschaften",
+            "showCondition": "profile.W & (!ef.G & !ef.GG) & (wk.G | wk2.G | wk.GG | wk2.GG) & (wk.E | wk2.E)",
+            "options": {
+                "G": "Geschichte",
+                "GG": "Geographie",
+                "E": "Englisch"
             }
         }
     ],
@@ -121,52 +156,70 @@
         ["gf_spr2.E", "spf_spr.E"],
     
         ["profile.W", "ef.WR"],
+
+        ["profile.W", "ef.E"],
+        ["profile.W", "ef.IT | wk.IT | wk2.IT"],
+        ["profile.W", "ef.RU | wk.RU | wk2.RU"],
+        ["profile.W", "ef.SP | wk.SP | wk2.SP"],
+
+        ["spf_spr.IT", "wk.SP | wk2.SP | ek.RU | wk2.RU"],
+        ["spf_spr.RU", "wk.SP | wk2.SP | ek.IT | wk2.IT"],
+        ["spf_spr.SP", "wk.RU | wk2.RU | ek.IT | wk2.IT"],
         
         ["bgmu.MU", "wk.BG"],
         ["bgmu.BG", "wk.MU"],
         ["bgmu.MU", "ef.BG"],
         ["bgmu.BG", "ef.MU"],
 
-        ["profile.W", "ef.E"],
-        ["profile.W", "ef.IT"],
-        ["profile.W", "ef.R"],
-        ["profile.W", "ef.SP"],
-
-        ["!gf_spr2.IT", "!spf_spr.IT", "ef.IT"],
+        ["!(gf_spr2.IT | spf_spr.IT)", "ef.IT"],
         ["!spf_spr.SP", "ef.SP"],
         ["!spf_spr.RU", "ef.RU"],
 
-        ["ef.B", "wk.B"],
-        ["ef.BG", "wk.BG"],
-        ["ef.C", "wk.C"],
-        ["ef.G", "wk.G"],
-        ["ef.GG", "wk.GG"],
-        ["ef.M", "wk.M"],
-        ["ef.MU", "wk.MU"],
-        ["ef.P", "wk.P"],
-        ["ef.WR", "wk.WR"]
+        ["ef.B & wk.B | wk.B & wk2.B | wk2.B & ef.B"],
+        ["ef.BG & wk.BG | wk.BG & wk2.BG | wk2.BG & ef.BG"],
+        ["ef.C & wk.C | wk.C & wk2.C | wk2.C & ef.C"],
+        ["ef.G & wk.G | wk.G & wk2.G | wk2.G & ef.G"],
+        ["ef.GG & wk.GG | wk.GG & wk2.GG | wk2.GG & ef.GG"],
+        ["ef.M & wk.M | wk.M & wk2.M | wk2.M & ef.M"],
+        ["ef.MU & wk.MU | wk.MU & wk2.MU | wk2.MU & ef.MU"],
+        ["ef.P & wk.P | wk.P & wk2.P | wk2.P & ef.P"],
+        ["ef.WR & wk.WR | wk.WR & wk2.WR | wk2.WR & ef.WR"],
+
+        ["wk.E", "wk2.E"],
+        ["wk.IT", "wk2.IT"],
+        ["wk.SP", "wk2.SP"],
+        ["wk.RU", "wk2.RU"],
+        
+        ["ef.IN", "wk2.IN"],
+        ["ef.S", "wk2.S"],
+
+        ["exam_choice_ggge.G", "!wk.G & !wk2.G"],
+        ["exam_choice_ggge.GG", "!wk.GG & !wk2.GG"]
     ],
     "gradeTypes": {
         "Sem5": "Erfahrungsnote Semester 5 (HS 3. Klasse)",
         "Sem6": "Erfahrungsnote Semester 6 (FS 3. Klasse)",
         "WK": "Wahlkursnote",
         "Jahr4": "Erfahrungsnote 4. Klasse",
-        "MatPr1": "Maturprüfung schriftlich",
-        "MatPr2": "Maturprüfung mündlich",
+        "Ps": "Maturprüfung schriftlich",
+        "Pm": "Maturprüfung mündlich",
         "VorMat": "Vormaturitätsprüfung",
         "MatAr": "Maturnote Maturitätsarbeit"
     },
     "gradeCalculations": {
-        "J4+Mat2": "Avg(Jahr4, Avg(MatPr1, MatPr2))",
-        "J4+WK+Mat2": "Avg(Jahr4, WK, MatPr1, MatPr2)",
-        "J4+MatPr1": "Avg(Jahr4, MatPr1)",
-        "J4+MatPr2": "Avg(Jahr4, MatPr2)",
+        "J4+Mat2": "Avg(Jahr4, Avg(Ps, Pm))",
+        "J4+WK+Mat2": "Avg(Jahr4, WK, Ps, Pm)",
+        "J4+WK+Ps": "Avg(Avg(Jahr4, WK), Ps)",
+        "J4+Ps": "Avg(Jahr4, Ps)",
+        "J4+Pm": "Avg(Jahr4, Pm)",
         "J4": "Jahr4",
+        "J4+WK": "Avg(Jahr4, WK)",
         "J3": "Avg(Sem5, Sem6)",
         "J3+VM": "Avg(Avg(Sem5, Sem6), VorMat)",
         "WK": "WK",
+        "WK+Ps": "Avg(WK, Ps)",
         "WK+VM": "Avg(WK, VorMat)",
-        "SPF_WR+WK": "Avg(WeightedAvg(Jahr4, Frac(10,7), WK, Frac(4,7)), Avg(MatPr1, MatPr2))",
+        "SPF_WR+WK": "Avg(WeightedAvg(Jahr4, Frac(5,7), WK, Frac(2,7)), Avg(Ps, Pm))",
         "MatAr": "MatAr"
     },
     "subjects": [
@@ -174,7 +227,7 @@
             "id": "D",
             "displayName": "Deutsch",
             "gradingScheme": {
-                "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                "gradeFields": ["Jahr4", "Ps", "Pm"],
                 "calculation": "J4+Mat2"
             }
         },
@@ -186,23 +239,22 @@
                 { "match": "*", "value": "Franzözisch" }
             ],
             "gradingScheme": {
-                "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                "gradeFields": ["Jahr4", "Ps", "Pm"],
                 "calculation": "J4+Mat2"
             }
         },
         {
             "id": "SprGF",
             "displayName": [
-                { "match": "gf.E", "value": "Englisch" },
                 { "match": "gf.IT", "value": "Italienisch" },
                 { "match": "*", "value": "Englisch" }
             ],
             "gradingScheme": [
                 {
-                    "match": "profile.W & wk.E",
+                    "match": "profile.W & (wk.E | wk2.E) & exam_choice_ggge.E",
                     "value": {
-                        "gradeFields": ["Jahr4", "MatPr2"],
-                        "calculation": "J4+MatPr2"
+                        "gradeFields": ["Jahr4", "Pm"],
+                        "calculation": "J4+Pm"
                     }
                 },
                 {
@@ -219,16 +271,16 @@
             "displayName": "Mathematik",
             "gradingScheme": [
                 {
-                    "match": "wk.M",
+                    "match": "wk.M | wk2.M",
                     "value": {
-                        "gradeFields": ["Jahr4", "WK", "MatPr1", "MatPr2"],
+                        "gradeFields": ["Jahr4", "WK", "Ps", "Pm"],
                         "calculation": "J4+WK+Mat2"
                     }
                 },
                 {
                     "match": "*",
                     "value": {
-                        "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                        "gradeFields": ["Jahr4", "Ps", "Pm"],
                         "calculation": "J4+Mat2"
                     }
                 }
@@ -239,14 +291,14 @@
             "displayName": "Biologie",
             "gradingScheme": [
                 {
-                    "match": "wk.B & !vormatur.B",
+                    "match": "(wk.B | wk2.B) & !vormatur.B",
                     "value": {
                         "gradeFields": ["WK"],
                         "calculation": "WK"
                     }
                 },
                 {
-                    "match": "wk.B & vormatur.B",
+                    "match": "(wk.B | wk2.B) & vormatur.B",
                     "value": {
                         "gradeFields": ["VorMat", "WK"],
                         "calculation": "WK+VM"
@@ -273,14 +325,14 @@
             "displayName": "Chemie",
             "gradingScheme": [
                 {
-                    "match": "wk.C & !vormatur.C",
+                    "match": "(wk.C | wk2.C) & !vormatur.C",
                     "value": {
                         "gradeFields": ["WK"],
                         "calculation": "WK"
                     }
                 },
                 {
-                    "match": "wk.C & vormatur.C",
+                    "match": "(wk.C | wk2.C) & vormatur.C",
                     "value": {
                         "gradeFields": ["VorMat", "WK"],
                         "calculation": "WK+VM"
@@ -307,14 +359,14 @@
             "displayName": "Physik",
             "gradingScheme": [
                 {
-                    "match": "wk.P & !vormatur.P",
+                    "match": "(wk.P | wk2.P) & !vormatur.P",
                     "value": {
                         "gradeFields": ["WK"],
                         "calculation": "WK"
                     }
                 },
                 {
-                    "match": "wk.P & vormatur.P",
+                    "match": "(wk.P | wk2.P) & vormatur.P",
                     "value": {
                         "gradeFields": ["VorMat", "WK"],
                         "calculation": "WK+VM"
@@ -341,17 +393,31 @@
             "displayName": "Geschichte",
             "gradingScheme": [
                 {
-                    "match": "wk.G",
+                    "match": "!exam_choice_ggg.GG & (!(ef.G | ef.GG | ef.WR) & (wk.G | wk2.G))",
                     "value": {
-                        "gradeFields": ["Jahr6", "MatPr1|Maturprüfung"],
-                        "calculation": "J6+WF"
+                        "gradeFields": ["Jahr4", "WK", "Ps|Maturprüfung"],
+                        "calculation": "J4+WK+Ps"
+                    }
+                },
+                {
+                    "match": "wk.G | wk2.G",
+                    "value": {
+                        "gradeFields": ["Jahr4", "WK"],
+                        "calculation": "J4+WK"
+                    }
+                },
+                {
+                    "match": "ef.G | (!(wk.G | wk2.G) & !(wk.GG | wk2.GG))",
+                    "value": {
+                        "gradeFields": ["Jahr4"],
+                        "calculation": "J4"
                     }
                 },
                 {
                     "match": "*",
                     "value": {
-                        "gradeFields": ["Sem5", "Sem6"],
-                        "calculation": "J3"
+                        "gradeFields": ["Jahr4", "Ps|Maturprüfung"],
+                        "calculation": "J4+Ps"
                     }
                 }
             ]
@@ -361,7 +427,14 @@
             "displayName": "Geographie",
             "gradingScheme": [
                 {
-                    "match": "wk.GG",
+                    "match": "exam_choice_ggg.GG",
+                    "value": {
+                        "gradeFields": ["WK", "Ps|Maturprüfung"],
+                        "calculation": "WK+Ps"
+                    }
+                },
+                {
+                    "match": "wk.GG | wk2.GG",
                     "value": {
                         "gradeFields": ["WK"],
                         "calculation": "WK"
@@ -385,7 +458,7 @@
             ],
             "gradingScheme": [
                 {
-                    "match": "wk.MU",
+                    "match": "wk.MU | wk.BG",
                     "value": {
                         "gradeFields": ["WK"],
                         "calculation": "WK"
@@ -413,16 +486,16 @@
             ],
             "gradingScheme": [
                 {
-                    "match": "profile.W & wk.WR",
+                    "match": "profile.W & (wk.WR | wk2.WR)",
                     "value": {
-                        "gradeFields": ["Jahr4", "WK", "MatPr1", "MatPr2"],
+                        "gradeFields": ["Jahr4", "WK", "Ps", "Pm"],
                         "calculation": "SPF_WR+WK"
                     }
                 },
                 {
                     "match": "*",
                     "value": {
-                        "gradeFields": ["Jahr4", "MatPr1", "MatPr2"],
+                        "gradeFields": ["Jahr4", "Ps", "Pm"],
                         "calculation": "J4+Mat2"
                     }
                 }
@@ -449,8 +522,8 @@
                 {
                     "match": "ef.G | ef.GG | ef.WR",
                     "value": {
-                        "gradeFields": ["Jahr4", "MatPr1"],
-                        "calculation": "J4+MatPr1"
+                        "gradeFields": ["Jahr4", "Ps"],
+                        "calculation": "J4+Ps"
                     }
                 },
                 {

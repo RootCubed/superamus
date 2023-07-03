@@ -47,16 +47,17 @@ test("Whitespace test", () => {
 test("Invalid match string", () => {
     const config = {};
 
-    expect(() => testMatchStr("", config)).toThrow();
-    expect(() => testMatchStr(null, config)).toThrow();
-    expect(() => testMatchStr("&", config)).toThrow();
-    expect(() => testMatchStr("|", config)).toThrow();
-    expect(() => testMatchStr("!", config)).toThrow();
-    expect(() => testMatchStr("c1.A |", config)).toThrow();
-    expect(() => testMatchStr("c1.A | c2.B &", config)).toThrow();
-    expect(() => testMatchStr("c1.A ! c1.A", config)).toThrow();
-    expect(() => testMatchStr("c1.A & (c1.A", config)).toThrow();
-    expect(() => testMatchStr("c1.A & (c1.A | c1.B))", config)).toThrow();
+    expect(() => testMatchStr(null, config)).toThrow("match string is null");
+    expect(() => testMatchStr("", config)).toThrow("Empty match string");
+    expect(() => testMatchStr("&", config)).toThrow("Invalid literal: &");
+    expect(() => testMatchStr("|", config)).toThrow("Invalid literal: |");
+    expect(() => testMatchStr("!", config)).toThrow("Unexpected end of match string");
+    expect(() => testMatchStr("c1.A |", config)).toThrow("Unexpected end of match string");
+    expect(() => testMatchStr("c1.A | c2.B &", config)).toThrow("Unexpected end of match string");
+    expect(() => testMatchStr("c1.A & (c1.A", config)).toThrow("Expected ')'");
+    expect(() => testMatchStr("c1.A & (c1.A | c1.B))", config)).toThrow("Unexpected token: )");
+    expect(() => testMatchStr("c1.A ! c1.A", config)).toThrow("Unary operator in wrong position: !");
+    expect(() => testMatchStr("c1.A $ c1.B", config)).toThrow("Invalid operator: $");
 });
 
 test("Parentheses", () => {
@@ -65,10 +66,11 @@ test("Parentheses", () => {
     expect(testMatchStr("(c1.A | c2.B) & c3.C", config)).toBe(true);
     expect(testMatchStr("c1.A | (c2.B & c3.C)", config)).toBe(true);
     expect(testMatchStr("(c1.A | c2.B) & (c3.C)", config)).toBe(true);
+    expect(testMatchStr("(c1.A | c2.B) & (!c3.C)", config)).toBe(false);
     expect(testMatchStr("(c1.A | c2.B) & (c3.A | c1.A)", config)).toBe(true);
 });
 
-test("Order of operation test", () => {
+test("Order of operations test", () => {
     const config = { "c1": "A", "c2": "A", "c3": "C" };
 
     expect(testMatchStr("c1.A | c2.B & c3.C", config)).toBe(true);
@@ -79,6 +81,16 @@ test("Order of operation test", () => {
     expect(testMatchStr("c1.A & c2.X | !c3.X", config)).toBe(true);
     expect(testMatchStr("!(c1.A & c2.X) | c3.X", config)).toBe(true);
     expect(testMatchStr("c1.A & !c2.X | c3.X", config)).toBe(true);
+    expect(testMatchStr("!c1.X & c2.X", config)).toBe(false);
+    expect(testMatchStr("!c1.X | c2.A", config)).toBe(true);
 });
 
+test("Wildcard test", () => {
+    const config = { "c1": "A", "c2": "B" };
 
+    expect(testMatchStr("*", config)).toBe(true);
+    expect(testMatchStr("c3.A & *", config)).toBe(false);
+    expect(testMatchStr("c1.*", config)).toBe(true);
+    expect(testMatchStr("c1.A & c2.*", config)).toBe(true);
+    expect(testMatchStr("c1.A & c3.*", config)).toBe(false);
+});

@@ -1,21 +1,20 @@
-import { parseCalcStr } from "./calcFunction";
+import { GradeCalculation } from "./gradeCalculation";
 import { testMatchStr } from "./matchString";
 
 function resolvePossibleSwitch(obj, choices) {
-    if (Array.isArray(obj)) {
-        for (const opt of obj) {
-            if (testMatchStr(opt.match, choices)) {
-                return opt.value;
-            }
-        }
-        return null;
+    if (!Array.isArray(obj)) {
+        return obj;
     }
-    return obj;
+    for (const opt of obj) {
+        if (testMatchStr(opt.match, choices)) {
+            return opt.value;
+        }
+    }
+    return null;
 }
 
 export class Regulations {
     constructor(regulationData) {
-        // Make local copy
         const rd = JSON.parse(JSON.stringify(regulationData));
 
         this.schoolName = rd.schoolName;
@@ -26,17 +25,6 @@ export class Regulations {
         this.gradeTypes = rd.gradeTypes;
         this.gradeCalculations = rd.gradeCalculations;
         this.subjects = rd.subjects;
-    }
-
-    isAllowed(choices) {
-        for (const comb of this.invalidChoiceCombinations) {
-            const foundAll = comb.every(e => testMatchStr(e, choices));
-            if (foundAll) {
-                console.log("Invalid combination", comb);
-                return false;
-            }
-        }
-        return true;
     }
 
     resolveGradeName(gradeID) {
@@ -52,7 +40,7 @@ export class Regulations {
 
     getChoices(choices) {
         return this.choices
-            .filter(c => !c.hideCondition || !c.hideCondition.some(e => testMatchStr(e, choices)))
+            .filter(c => !c.showCondition || testMatchStr(c.showCondition, choices))
             .map(c => ({ choiceID: c.id, name: c.displayName }));
     }
 
@@ -66,9 +54,14 @@ export class Regulations {
 
         for (const opt in choice.options) {
             let obj = { optionID: opt, name: choice.options[opt], invalid: false };
-            let choiceCopy = Object.assign({}, choices);
-            choiceCopy[choiceID] = opt;
-            if (!this.isAllowed(choiceCopy)) {
+
+            let newChoice = {
+                ...choices,
+                [choiceID]: opt
+            };
+            // If there exists a match string list in invalidChoiceCombinations
+            // where all match strings evaluate to true, the choice is not allowed
+            if (this.invalidChoiceCombinations.some(comb => comb.every(ms => testMatchStr(ms, newChoice)))) {
                 obj.invalid = true;
             }
             res.push(obj);
@@ -99,7 +92,7 @@ export class Regulations {
         }));
     }
 
-    getCalculationStr(config, subjectID) {
+    getCalculationString(config, subjectID) {
         const subj = this.subjects.find(s => s.id == subjectID);
         const gradingScheme = resolvePossibleSwitch(subj.gradingScheme, config);
         const gradeCalculation = this.gradeCalculations[gradingScheme.calculation];
@@ -108,14 +101,14 @@ export class Regulations {
             throw new Error(`Grade calculation ${gradingScheme.calculation} not found`);
         }
 
-        return gradeCalculation;
+        return new GradeCalculation(gradeCalculation);
     }
 
     calcAvg(config, subjectID, grades) {
-        const gradeCalculation = this.getCalculationStr(config, subjectID);
+        const gradeCalculation = this.getCalculationString(config, subjectID);
 
         try {
-            return parseCalcStr(gradeCalculation).eval(grades);
+            return gradeCalculation.eval(grades);
         } catch (e) {
             console.error(`Error while calculating average for ${subjectID}: ${e}`);
             return NaN;
@@ -123,25 +116,21 @@ export class Regulations {
     }
 
     getCalcStr(config, subjectID) {
-        const gradeCalculation = this.getCalculationStr(config, subjectID);
+        const gradeCalculation = this.getCalculationString(config, subjectID);
 
         try {
-            const gradeFields = {};
-            for (const gf of this.getGradeFields(config, subjectID)) {
-                gradeFields[gf.id] = gf.name;
-            }
-            return parseCalcStr(gradeCalculation).getCalcStr(gradeFields);
+            return gradeCalculation.prettyPrint();
         } catch (e) {
             console.error(`Error while getting calculation string for ${subjectID}: ${e}`);
             return NaN;
         }
     }
 
-    getGradeWeights(config, subjectID, grades) {
-        const gradeCalculation = this.getCalculationStr(config, subjectID);
+    getGradeWeights(config, subjectID) {
+        const gradeCalculation = this.getCalculationString(config, subjectID);
         
         try {
-            return parseCalcStr(gradeCalculation).getGradeWeights(grades);
+            return gradeCalculation.getWeights();
         } catch (e) {
             console.error(`Error while calculating grade weights for ${subjectID}: ${e}`);
             return {};

@@ -2,18 +2,10 @@
     {
         "groupName": "Kanton Zürich",
         "schools": [
-            {
-                "schoolName": "Kantonsschule Enge",
-                "url": "ken"
-            },
-            {
-                "schoolName": "Kantonsschule Zürcher Oberland",
-                "url": "kzo"
-            },
-            {
-                "schoolName": "Kantonsschule Rychenberg",
-                "url": "krw"
-            }
+            { "schoolName": "Kantonsschule Enge", "url": "ken" },
+            { "schoolName": "Kantonsschule Freudenberg", "url": "kfr" },
+            { "schoolName": "Kantonsschule Rychenberg", "url": "krw" },
+            { "schoolName": "Kantonsschule Zürcher Oberland", "url": "kzo" }
         ]
     }
 ]

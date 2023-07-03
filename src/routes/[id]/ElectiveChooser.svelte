@@ -10,6 +10,8 @@
         for (const choiceID in config) {
             if (!choices.some(c => c.choiceID == choiceID)) {
                 delete config[choiceID];
+            } else if (config[choiceID] == " ") {
+                delete config[choiceID];
             }
         }
     }
