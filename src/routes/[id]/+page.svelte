@@ -14,6 +14,32 @@
     let grades = null;
     let schoolID;
     let storeToLocalStorage = true;
+    let loadedFromLink = false;
+
+    function endLinkView(copyToLocalStorage) {
+        if (!copyToLocalStorage) {
+            if (localStorage[`config.${schoolID}`] && localStorage[`grades.${schoolID}`]) {
+                config = JSON.parse(localStorage[`config.${schoolID}`]);
+                grades = JSON.parse(localStorage[`grades.${schoolID}`]);
+            }
+        }
+        storeToLocalStorage = true;
+        loadedFromLink = false;
+        window.history.pushState({
+            config,
+            grades,
+            loadedFromURL: false
+        }, "", $page.url.pathname);
+    }
+
+    function popState(ev) {
+        if (ev.state && ev.state.config) {
+            config = ev.state.config;
+            grades = ev.state.grades;
+            loadedFromLink = ev.state.loadedFromURL;
+            storeToLocalStorage = !loadedFromLink;
+        }
+    }
 
     onMount(() => {
         schoolID = $page.params["id"];
@@ -27,7 +53,14 @@
             grades = gradeObj;
 
             couldLoad = true;
+            loadedFromLink = true;
             storeToLocalStorage = false;
+
+            window.history.pushState({
+                config,
+                grades,
+                loadedFromURL: true
+            }, "", $page.url);
         } else if (localStorage) {
             if (localStorage[`config.${schoolID}`] && localStorage[`grades.${schoolID}`]) {
                 config = JSON.parse(localStorage[`config.${schoolID}`]);
@@ -48,6 +81,11 @@
         localStorage[`grades.${schoolID}`] = JSON.stringify(grades);
     }
 </script>
+
+<svelte:head>
+    <title>superamus {$page.params["id"].toUpperCase()}</title>
+</svelte:head>
+<svelte:window on:popstate={popState}/>
 
 <div id="header">
     <h1>Maturrechner {regulations.schoolName}</h1>
@@ -80,9 +118,21 @@
     {/if}
 </div>
 <div id="content">
-    <ElectiveChooser {regulations} bind:config />
-    <span class="line"></span>
-    <CalculatorView {regulations} {config} bind:grades />
+    {#if loadedFromLink}
+    <div id="info-loaded-from-link">
+        <p>Es wurden die Noten von dem geteilten Link übernommen.</p>
+        <div>
+            <button on:click={() => endLinkView(false)}>Zurück zu den eigenen Noten</button>
+            <button on:click={() => endLinkView(true)}>Eigene Noten überschreiben</button>
+        </div>
+    </div>
+    {/if}
+    <div id="calculator-content">
+        <div id="calculator-disabled-overlay" class={loadedFromLink ? "shown" : ""}></div>
+        <ElectiveChooser {regulations} bind:config />
+        <span class="line"></span>
+        <CalculatorView {regulations} {config} bind:grades />
+    </div>
 </div>
 
 <style>
@@ -95,6 +145,38 @@
         margin-top: 10px;
         padding: 20px;
         background-color: #ffcb50;
+    }
+
+    #info-loaded-from-link {
+        padding: 20px;
+        background-color: #ffcb50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    button {
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #eee;
+        cursor: pointer;
+        float: right;
+    }
+
+    #calculator-content {
+        position: relative;
+    }
+
+    #calculator-disabled-overlay.shown {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0005;
+        z-index: 3;
     }
 
     span.title {
