@@ -16,7 +16,7 @@
         <ul>
             {#each groups.schools as school}
                 <li>
-                    <a href={school.url}>{school.schoolName}</a>
+                    <a href="{school.url}/">{school.schoolName}</a>
                 </li>
             {/each}
         </ul>

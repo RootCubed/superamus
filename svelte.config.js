@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-node";
+import adapter from "@sveltejs/adapter-static";
 
 const BASE_URL = process.env.BASE_URL || "";
 
