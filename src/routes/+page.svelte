@@ -10,7 +10,7 @@
         Dies ist ein Tool für die Maturnotenberechnung an den Schweizer Gymnasien.
         Aktuell sind folgende Schulen unterstützt:
     </p>
-    <div id="school-list">
+    <div class="cont">
     {#each data.schools as groups}
         <h2>{groups.groupName}</h2>
         <ul>
@@ -22,10 +22,13 @@
         </ul>
     {/each}
     </div>
-
-    <p>
-        Weitere Schulen folgen...
-    </p>
+    <div class="cont">
+        <p>
+            Wenn du helfen willst, eine Schule hinzuzufügen, kannst du dich gerne auf
+            <a href="https://github.com/RootCubed/superamus/" target="_blank">GitHub</a>
+            informieren, wie man eine Reglementdatei erstellen und mir diese zukommen lassen kann.
+        </p>
+    </div>
 </div>
 
 <style>
@@ -38,7 +41,7 @@
         padding: 20px;
     }
 
-    #school-list {
+    .cont {
         margin: 20px 0;
     }
 

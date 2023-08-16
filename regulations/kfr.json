@@ -6,10 +6,11 @@
             "https://www.kfr.ch/gymnasium/wp-content/uploads/2022/12/leitfaden-6.-schuljahr23-24-inhalt-web-def.pdf",
             "https://www.kfr.ch/gymnasium/wp-content/uploads/2020/05/musik-broschure202021.pdf"
         ],
-        "accessed": "03.07.2023"
+        "accessed": "03.07.2023",
+        "version": "2024"
     },
     "uncertainties": [
-        "Das mathematisch-naturwissenschaftliche Profile gibt es erst ab dem Schuljahr 22/23, weswegen noch keine Details über das Maturjahr bekannt sind.",
+        "Das mathematisch-naturwissenschaftliche Profil gibt es erst ab dem Schuljahr 22/23, weswegen noch keine Details über das Maturjahr bekannt sind.",
         "FIXME: BCP, GGG"
     ],
     "choices": [
@@ -103,7 +104,7 @@
             }
         },
         {
-            "id": "pfk_bcp",
+            "id": "pfk_ns",
             "displayName": "Nichtsprachlicher Präferenzkurs",
             "options": {
                 "B": "Biologie",
@@ -164,7 +165,9 @@
     ],
     "invalidChoiceCombinations": [
         ["profile.MN_BC"],
-        ["profile.MN_PAM"]
+        ["profile.MN_PAM"],
+
+        ["bgmu.MU", "pfk_ns.BG | pfk_ns2.BG | pfk_ns3.BG"]
     ],
     "gradeTypes": {
         "Sem4.2": "Erfahrungsnote 4.2",

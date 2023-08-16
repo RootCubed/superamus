@@ -51,9 +51,9 @@
 
 <div id="header">
     <h1>Maturrechner {regulations.schoolName}</h1>
-    <p>Die Notenberechnung basiert auf den folgenden Dokumenten (abgefragt {regulations.source.accessed}):</p>
+    <p>Die Notenberechnung basiert auf den folgenden Dokumenten (Matur {regulations.source.version}, abgefragt {regulations.source.accessed}):</p>
     {#each regulations.source.urls as source, i}
-        <span class="source-ref">Link {i + 1}: <a href={source} target="_blank">{source}</a></span>
+        <span class="source-ref">Dokument {i + 1}: <a href={source} target="_blank">{source}</a></span>
     {/each}
     {#if regulations.uncertainties.length > 0}
         <div id="uncertainties">
@@ -65,7 +65,7 @@
             </p>
             <p class="details">
                 Falls Du glaubst, diese klären zu können, würde ich mich sehr freuen, wenn Du auf
-                <a href="https://github.com/RootCubed/matura-calculator/issues">GitHub</a>
+                <a href="https://github.com/RootCubed/superamus/issues" target="_blank">GitHub</a>
                 einen Issue erstellen würdest.
             </p>
             <p class="details">

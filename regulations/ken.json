@@ -7,11 +7,10 @@
             "https://www.ken.ch/gymnasium/neue-sprachen",
             "https://www.ken.ch/gymnasium/unterricht/wahlkurse"
         ],
-        "accessed": "27.06.2023"
+        "accessed": "16.08.2023",
+        "version": "2024"
     },
-    "uncertainties": [
-        "Gibt es im Instrumentalunterricht eine Note? Falls ja, ist die Musiknote einfach der gerundete Schnitt von Musikunterricht und Instrumentalunterricht?"
-    ],
+    "uncertainties": [],
     "choices": [
         {
             "id": "profile",
@@ -481,7 +480,7 @@
                 { "match": "spf_spr.F",  "value": "Schwerpunktfach Französisch" },
                 { "match": "spf_spr.IT", "value": "Schwerpunktfach Italienisch" },
                 { "match": "spf_spr.SP", "value": "Schwerpunktfach Spanisch" },
-                { "match": "spf_spr.R",  "value": "Schwerpunktfach Russisch" },
+                { "match": "spf_spr.RU",  "value": "Schwerpunktfach Russisch" },
                 { "match": "*",          "value": "Schwerpunktfach" }
             ],
             "gradingScheme": [

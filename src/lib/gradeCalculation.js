@@ -83,7 +83,7 @@ class GradeCalculationFunc {
                 str += ")";
                 return str;
             case "Round":
-                return `(ger.)${args[0]}`;
+                return `|${args[0]}|`;
             case "Frac":
                 return `${args[0]}/${args[1]}`;
         }

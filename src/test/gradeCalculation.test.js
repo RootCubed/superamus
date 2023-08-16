@@ -34,7 +34,7 @@ test("Pretty print tests", () => {
   const calculation3 = new GradeCalculation("WeightedAvg(Jahr6, 0.2, MatPr1, 0.8)");
 
   expect(calculation1.prettyPrint()).toEqual("⌀([Jahr6], [MatPr1])");
-  expect(calculation2.prettyPrint()).toEqual("(ger.)⌀([Jahr6], [MatPr1], [MatPr2])");
+  expect(calculation2.prettyPrint()).toEqual("|⌀([Jahr6], [MatPr1], [MatPr2])|");
   expect(calculation3.prettyPrint()).toEqual("⌀([Jahr6] (Gew. 0.2), [MatPr1] (Gew. 0.8))");
 });
 

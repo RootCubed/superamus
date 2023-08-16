@@ -5,11 +5,13 @@
             "https://www.krw.ch/cm/wp-content/uploads/portra%CC%88t_inhalt_2019_19.9.19.pdf",
             "https://www.krw.ch/langgymnasium/lg-lehrangebote/"
         ],
-        "accessed": "25.06.2023"
+        "accessed": "25.06.2023",
+        "version": "2024"
     },
     "uncertainties": [
         "Ist die Erfahrungsnote in Musik der ungerundete oder der gerundete Schnitt von Klassenunterricht und Instrumentalunterricht?",
-        "Darf man ein Ergänzungsfach wählen, wenn man es schon als Wahlfach genommen hat? (z.B. Biologie als Wahlfach Naturwissenschaften + EF Biologie)"
+        "Darf man ein Ergänzungsfach wählen, wenn man es schon als Wahlfach genommen hat? (z.B. Biologie als Wahlfach Naturwissenschaften + EF Biologie)",
+        "Gibt es im naturwissenschaftlichen Wahlfach eine Jahresnote oder ist die Erfahrungsnote die der 5. Klasse?"
     ],
     "choices": [
         {
@@ -114,7 +116,6 @@
     },
     "gradeCalculations": {
         "J6+Mat2": "Avg(Jahr6, Avg(MatPr1, MatPr2))",
-        "J6+Mat_Combined": "Avg(Jahr6, Jahr6_2, MatPr1, MatPr2)",
         "J6": "Jahr6",
         "Jahr6_2": "Avg(Jahr6, Jahr6_2)",
         "J5": "Avg(Sem5_1, Sem5_2)",
@@ -291,6 +292,7 @@
                 { "match": "spf.L",  "value": "Schwerpunktfach Latein" },
                 { "match": "spf.E",  "value": "Schwerpunktfach Englisch" },
                 { "match": "spf.IT", "value": "Schwerpunktfach Italienisch" },
+                { "match": "spf.SP", "value": "Schwerpunktfach Spanisch" },
                 { "match": "spf.RU", "value": "Schwerpunktfach Russisch" },
                 { "match": "*",      "value": "Schwerpunktfach" }
             ],

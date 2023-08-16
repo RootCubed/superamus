@@ -8,7 +8,7 @@
     </div>
     <div id="footer">
         <span>
-        Quellcode für diese Seite: <a href="https://github.com/RootCubed/matura-calculator">https://github.com/RootCubed/matura-calculator</a><br>
+        Quellcode für diese Seite: <a href="https://github.com/RootCubed/superamus" target="_blank">https://github.com/RootCubed/superamus</a><br>
         &copy; 2023 Liam Braun. Alle Angaben ohne Gewähr.
         </span>
     </div>
