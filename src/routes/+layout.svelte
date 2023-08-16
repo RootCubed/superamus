@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>Maturrechner</title>
+    <title>superamus</title>
 </svelte:head>
 
 <div id="app">
