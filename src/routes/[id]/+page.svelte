@@ -83,7 +83,7 @@
 </script>
 
 <svelte:head>
-    <title>superamus {$page.params["id"].toUpperCase()}</title>
+    <title>Superamus {$page.params["id"].toUpperCase()}</title>
 </svelte:head>
 <svelte:window on:popstate={popState}/>
 

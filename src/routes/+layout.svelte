@@ -1,5 +1,10 @@
 <svelte:head>
-    <title>superamus</title>
+    <title>Superamus</title>
+    <meta name="description" content="Der Maturnotenrechner für Schweizer Gymnasien">
+    <meta name="author" content="Liam Braun">
+    <meta name="keywords" content="Maturnoten, Maturrechner, Matura, Gymi, Kanti">
+    <meta content="Superamus" property="og:title" />
+    <meta content="Der Maturnotenrechner" property="og:description" />
 </svelte:head>
 
 <div id="app">
