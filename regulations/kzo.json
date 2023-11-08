@@ -297,13 +297,6 @@
             ],
             "gradingScheme": [
                 {
-                    "match": "profile.M_MU",
-                    "value": {
-                        "gradeFields": ["Sem5.1", "Sem5.2"],
-                        "calculation": "J5"
-                    }
-                },
-                {
                     "match": "profile.M_BG | bgmu.MU",
                     "value": {
                         "gradeFields": ["Jahr6", "InsSem5.2", "InsSem6.1"],
